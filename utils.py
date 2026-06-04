@@ -1,0 +1,16 @@
+import time
+
+def timeit(func):
+    def wrapper(*args, **kwargs):
+        start = time.time()
+        result = func(*args, **kwargs)
+        end = time.time()
+        with open("log_file.log", "a") as f:
+            f.write(f"{func.__name__}: {end-start}\n")
+        return result
+    return wrapper
+
+class BadRowException(Exception):
+    def __init__(self, row_num, error_text):
+        self.row_num = row_num
+        self.error_text = error_text
