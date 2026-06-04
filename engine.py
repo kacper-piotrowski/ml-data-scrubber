@@ -1,6 +1,8 @@
 import json
 import re
 
+from utils import BadRowException
+
 
 class Dataset:
     def __init__(self, path):
@@ -18,9 +20,16 @@ class Dataset:
                     headers = ["col "+str(i) for i in range(len(lines[0].split(',')))]
                 start_index = 1 if has_header else 0
                 for split_line in lines[start_index:]:
-                    split_line = split_line.strip().split(",")
-                    data_dict = dict(zip(headers, split_line))
-                    self.file_data.append(data_dict)
+                    try:
+                        split_line = split_line.strip().split(",")
+                        if len(split_line) != len(headers):
+                            raise BadRowException(start_index, "CSV row has wrong number of columns")
+                        data_dict = dict(zip(headers, split_line))
+                        self.file_data.append(data_dict)
+                        start_index += 1
+                    except BadRowException as e:
+                        print(e.error_text)
+                        continue
         except FileNotFoundError:
             print("File not found!")
 
@@ -49,6 +58,10 @@ class Dataset:
             self.load_txt()
         elif self.file_path.endswith('.json'):
             self.load_json()
+
+    def generate_batches(self, batch_size):
+        for i in range(0, len(self.file_data), batch_size):
+            yield self.file_data[i:i + batch_size]
 
 class TextDataset(Dataset):
     def __init__(self, path: str):
