@@ -84,7 +84,7 @@ class TextDataset(Dataset):
         filtered_data = list(filter(lambda current_dict: len(current_dict[column]) >= min_length, self.file_data))
         self.file_data = filtered_data
 
-    def mask_personal_data(self, column, personal_data_type):
+    def censor_personal_data(self, column, personal_data_type):
         personal_data_patterns = {
             "email" : r'\S+@\S+',
             "pl_phone" : r'\b\d{9}\b',
