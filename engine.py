@@ -84,7 +84,7 @@ class Dataset:
     def export_batches(self, batch_size, format_type="json"):
         if batch_size > len(self.file_data):
             raise InvalidBatchNumberException(f"Can't generate {batch_size} from {len(self.file_data)} rows of data!")
-        if format_type not in ("json"):
+        if format_type not in ("json",):
             raise NotImplementedError(f"Format type {format_type} is not supported!")
         os.makedirs("batches", exist_ok=True)
         base_name = "batches"
