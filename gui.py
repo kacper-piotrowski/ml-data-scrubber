@@ -1,5 +1,8 @@
 import customtkinter
+import matplotlib.pyplot as plot
 from customtkinter import filedialog
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+
 from engine import TextDataset
 from utils import NoDatasetException, InvalidBatchNumberException
 
@@ -41,27 +44,56 @@ class ScrubberApp(customtkinter.CTk):
 
         self.contents = customtkinter.CTkTextbox(self.main_screen)
         self.contents.pack(fill="both", expand=True)
+        self.contents.configure(state="disabled")
+
+    def update_console(self, text, clear_before = False):
+        self.contents.configure(state="normal")
+        if clear_before:
+            self.contents.delete("0.0", "end")
+        self.contents.insert("end", text)
+        self.contents.configure(state="disabled")
 
     def handle_load_file(self):
         chosen_file_path = filedialog.askopenfilename()
         if chosen_file_path:
-            self.contents.insert("end", chosen_file_path)
+            self.update_console(chosen_file_path)
             self.dataset = TextDataset(chosen_file_path)
             self.dataset.load_data()
-            self.contents.insert("end", f"\nLoaded {len(self.dataset.file_data)} lines!")
+            self.update_console(f"\nLoaded {len(self.dataset.file_data)} lines!")
 
     def handle_word_stats(self):
         try:
             if self.dataset is None:
                 raise NoDatasetException("No dataset loaded!")
-            unique_words = self.dataset.get_unique_words("text") #TODO KOLUMNA!!
-            self.contents.delete("0.0", "end")
-            self.contents.insert("end", f"Unique words: {len(unique_words)}\n")
+            frequency_dict = self.dataset.get_word_frequencies("text") #TODO KOLUMNA!!
+            top_10 = sorted(frequency_dict.items(), key=lambda x: x[1], reverse=True)[:10]
+            words = [pair[0] for pair in top_10]
+            counts = [pair[1] for pair in top_10]
+            plot.style.use("dark_background")
+            plot_window = customtkinter.CTkToplevel(self)
+            plot_window.title("Word Stats")
+            plot_window.geometry("800x600")
+            plot_window.attributes("-topmost", True)
+            figure = plot.figure(figsize = (8,5))
+            figure.patch.set_facecolor("#1d1e1e")
+            axes = plot.gca()
+            axes.set_facecolor("#1d1e1e")
+            plot.bar(words, counts, color="#1f6aa5")
+            plot.title("Top 10 Most Frequent Words")
+            plot.xlabel("Words")
+            plot.ylabel("Frequency")
+            plot.xticks(rotation=45)
+            plot.tight_layout()
+            canvas = FigureCanvasTkAgg(figure, master=plot_window)
+            canvas.draw()
+            canvas.get_tk_widget().pack(fill="both", expand=True)
+
+            unique_words = self.dataset.get_unique_words("text")  # TODO KOLUMNA!!
+            self.update_console(f"Unique words: {len(unique_words)}\n\n", clear_before=True)
             for word in unique_words:
-                self.contents.insert("end", f"{word}\n")
+                self.update_console(f"{word}\n")
         except NoDatasetException as e:
-            self.contents.delete("0.0", "end")
-            self.contents.insert("end", e.error_text)
+            self.update_console(e.error_text, clear_before=True)
             return
 
     def handle_filter_data(self):
@@ -75,16 +107,14 @@ class ScrubberApp(customtkinter.CTk):
                 self.dataset.filter_short_data("text", int(chosen_min_length)) #TODO KOLUMNA!!
                 new_length = len(self.dataset.file_data)
                 removed_count = old_length - new_length
-                self.contents.delete("0.0", "end")
-                self.contents.insert("end", f"Data filtered!\n")
-                self.contents.insert("end", f"Removed {removed_count} short rows.\n")
-                self.contents.insert("end", f"Remaining rows: {new_length}\n\n")
-                self.contents.insert("end", "--- Preview of filtered data ---\n")
+                self.update_console(f"Data filtered!\n", clear_before=True)
+                self.update_console(f"Removed {removed_count} short rows.\n")
+                self.update_console(f"Remaining rows: {new_length}\n\n")
+                self.update_console("Preview: \n")
                 for row in self.dataset.file_data[:5]:
-                    self.contents.insert("end", f"{row}\n")
+                    self.update_console(f"{row}\n")
         except NoDatasetException as e:
-            self.contents.delete("0.0", "end")
-            self.contents.insert("end", e.error_text)
+            self.update_console(e.error_text, clear_before=True)
 
     def handle_censor_data(self):
         try:
@@ -92,26 +122,21 @@ class ScrubberApp(customtkinter.CTk):
                 raise NoDatasetException("No dataset loaded!")
             chosen_censor = self.censor_options.get()
             self.dataset.censor_personal_data("text", chosen_censor) #TODO KOLUMNA!!
-            self.contents.delete("0.0", "end")
-            self.contents.insert("end", f"Censored {chosen_censor} in dataset!\n")
+            self.update_console(f"Censored {chosen_censor} in dataset!\n", clear_before=True)
         except NoDatasetException as e:
-            self.contents.delete("0.0", "end")
-            self.contents.insert("end", e.error_text)
+            self.update_console(e.error_text, clear_before=True)
 
     def handle_export_batches(self):
         try:
             if self.dataset is None:
                 raise NoDatasetException("No dataset loaded!")
-            chosen_batches_box = customtkinter.CTkInputDialog(text="Choose the number of exported batches",title="Choice")
+            chosen_batches_box = customtkinter.CTkInputDialog(text="Choose the batch size (number of rows per file)",title="Choice")
             chosen_batches = chosen_batches_box.get_input()
             if chosen_batches and chosen_batches.isdigit() and int(chosen_batches) > 0:
                 self.dataset.export_batches(int(chosen_batches))
-                self.contents.delete("0.0", "end")
-                self.contents.insert("end", f"Successfully exported {chosen_batches} batches!\n")
+                self.update_console(f"Successfully exported {chosen_batches} rows per batch!\n", clear_before=True)
         except NoDatasetException as e:
-            self.contents.delete("0.0", "end")
-            self.contents.insert("end", e.error_text)
+            self.update_console(e.error_text, clear_before=True)
         except InvalidBatchNumberException as e:
-            self.contents.delete("0.0", "end")
-            self.contents.insert("end", e.error_text)
+            self.update_console(e.error_text, clear_before=True)
 
