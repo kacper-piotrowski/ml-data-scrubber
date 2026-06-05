@@ -75,13 +75,17 @@ class Dataset:
             self.load_json()
 
     def generate_batches(self, batch_size):
-        for i in range(0, len(self.file_data), batch_size):
+        i=0
+        while i < len(self.file_data):
             yield self.file_data[i:i + batch_size]
+            i+=batch_size
 
     @time_func
     def export_batches(self, batch_size, format_type="json"):
         if batch_size > len(self.file_data):
             raise InvalidBatchNumberException(f"Can't generate {batch_size} from {len(self.file_data)} rows of data!")
+        if format_type not in ("json"):
+            raise NotImplementedError(f"Format type {format_type} is not supported!")
         os.makedirs("batches", exist_ok=True)
         base_name = "batches"
         if self.file_path:
@@ -130,7 +134,7 @@ class TextDataset(Dataset):
         chosen_pattern = personal_data_patterns.get(personal_data_type)
         if not chosen_pattern:
             raise ValueError(f"Invalid personal data type: {personal_data_type}")
-        
+
         for current_dict in self.file_data:
             masked_dict = re.sub(chosen_pattern, "[PERSONAL]", current_dict[column])
             current_dict[column] = masked_dict

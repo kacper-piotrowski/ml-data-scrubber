@@ -67,7 +67,7 @@ class ScrubberApp(customtkinter.CTk):
     def handle_load_file(self):
         chosen_file_path = filedialog.askopenfilename()
         if chosen_file_path:
-            self.update_console(chosen_file_path)
+            self.update_console(chosen_file_path, clear_before=True)
             self.dataset = TextDataset(chosen_file_path)
             csv_has_header = True if str(self.header_switch.get()) == "1" else False
             try:
@@ -132,6 +132,8 @@ class ScrubberApp(customtkinter.CTk):
         except NoDatasetException as e:
             self.update_console(e.error_text, clear_before=True)
             return
+        except Exception as e:
+            self.update_console(str(e), clear_before=True)
 
     def handle_filter_data(self):
         try:
@@ -153,6 +155,8 @@ class ScrubberApp(customtkinter.CTk):
                     self.update_console(f"{row}\n")
         except NoDatasetException as e:
             self.update_console(e.error_text, clear_before=True)
+        except Exception as e:
+            self.update_console(str(e), clear_before=True)
 
     def handle_censor_data(self):
         try:
@@ -180,4 +184,6 @@ class ScrubberApp(customtkinter.CTk):
             self.update_console(e.error_text, clear_before=True)
         except InvalidBatchNumberException as e:
             self.update_console(e.error_text, clear_before=True)
+        except NotImplementedError as e:
+            self.update_console(str(e), clear_before=True)
 
