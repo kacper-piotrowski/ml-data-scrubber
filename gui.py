@@ -25,26 +25,30 @@ class ScrubberApp(customtkinter.CTk):
         self.load_button = customtkinter.CTkButton(self.sidebar, text="Load File", font=("Segoe UI", 16), command=self.handle_load_file)
         self.load_button.grid(row=1, column=0, padx=10, pady=10)
 
+        self.header_switch = customtkinter.CTkSwitch(self.sidebar, text="CSV Has Header", font=("Segoe UI", 13))
+        self.header_switch.grid(row=2, column=0, padx=20, pady=(5, 15))
+
+
         self.column_label = customtkinter.CTkLabel(self.sidebar, text="Select Column:", font=("Segoe UI", 13))
-        self.column_label.grid(row=2, column=0, padx=10, pady=(10, 0))
+        self.column_label.grid(row=3, column=0, padx=10, pady=(10, 0))
         self.columns_available = customtkinter.CTkOptionMenu(self.sidebar, values=["None"])
-        self.columns_available.grid(row=3, column=0, padx=10, pady=(0, 20))
+        self.columns_available.grid(row=4, column=0, padx=10, pady=(0, 20))
 
         self.word_stats_button = customtkinter.CTkButton(self.sidebar, text="Word Stats", font=("Segoe UI", 16), command=self.handle_word_stats)
-        self.word_stats_button.grid(row=4, column=0, padx=10, pady=10)
+        self.word_stats_button.grid(row=5, column=0, padx=10, pady=10)
 
         self.filter_data_button = customtkinter.CTkButton(self.sidebar, text="Filter Data", font=("Segoe UI", 16), command=self.handle_filter_data)
-        self.filter_data_button.grid(row=5, column=0, padx=10, pady=10)
+        self.filter_data_button.grid(row=6, column=0, padx=10, pady=10)
 
         self.censor_label = customtkinter.CTkLabel(self.sidebar, text="Data to Censor:", font=("Segoe UI", 13))
-        self.censor_label.grid(row=6, column=0, padx=10, pady=(15, 0))
+        self.censor_label.grid(row=7, column=0, padx=10, pady=(15, 0))
         self.censor_options = customtkinter.CTkOptionMenu(self.sidebar, values=["email", "pl_phone", "pesel"])
-        self.censor_options.grid(row=7, column=0, padx=10, pady=(5, 10))
+        self.censor_options.grid(row=8, column=0, padx=10, pady=(5, 10))
         self.censor_data_button = customtkinter.CTkButton(self.sidebar, text="Censor Data", font=("Segoe UI", 16), command=self.handle_censor_data)
-        self.censor_data_button.grid(row=8, column=0, padx=10, pady=(0,20))
+        self.censor_data_button.grid(row=9, column=0, padx=10, pady=(0,20))
 
         self.export_batches_button = customtkinter.CTkButton(self.sidebar, text="Export Batches", font=("Segoe UI", 16), command=self.handle_export_batches)
-        self.export_batches_button.grid(row=9, column=0, padx=10, pady=10)
+        self.export_batches_button.grid(row=10, column=0, padx=10, pady=10)
 
         self.main_screen = customtkinter.CTkFrame(self)
         self.main_screen.grid(row=0, column=1, sticky="NSEW", padx=20, pady=20)
@@ -65,7 +69,8 @@ class ScrubberApp(customtkinter.CTk):
         if chosen_file_path:
             self.update_console(chosen_file_path)
             self.dataset = TextDataset(chosen_file_path)
-            self.dataset.load_data()
+            csv_has_header = True if str(self.header_switch.get()) == "1" else False
+            self.dataset.load_data(has_header=csv_has_header)
             columns = self.dataset.get_columns()
             if columns:
                 self.columns_available.configure(values=columns)
@@ -79,7 +84,6 @@ class ScrubberApp(customtkinter.CTk):
         try:
             if self.dataset is None:
                 raise NoDatasetException("No dataset loaded!")
-            selected_column = self.columns_available.get()
             selected_column = self.columns_available.get()
             frequency_dict = self.dataset.get_word_frequencies(selected_column)
             top_10 = sorted(frequency_dict.items(), key=lambda x: x[1], reverse=True)[:10]
