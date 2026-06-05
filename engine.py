@@ -85,6 +85,11 @@ class Dataset:
                 if format_type == "json":
                     json.dump(batch, file, indent=4)
 
+    def get_columns(self):
+        if self.file_data and isinstance(self.file_data[0], dict):
+            return list(self.file_data[0].keys())
+        return []
+
 class TextDataset(Dataset):
     def __init__(self, my_path: str):
         super().__init__(my_path)
