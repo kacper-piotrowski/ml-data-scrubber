@@ -1,7 +1,11 @@
 import json
+import os
+import random
 import re
+from pathlib import Path
+from sys import path
 
-from utils import BadRowException
+from utils import BadRowException, NoDatasetException
 
 
 class Dataset:
@@ -63,6 +67,21 @@ class Dataset:
         for i in range(0, len(self.file_data), batch_size):
             yield self.file_data[i:i + batch_size]
 
+    def export_batches(self, num_batches, format_type="json"):
+        os.makedirs("batches", exist_ok=True)
+        base_name = "batches"
+        if path:
+            base_name = Path(self.file_path).stem
+        num_batches = max(1, num_batches)
+        batch_size = max(1, len(self.file_data) // num_batches)
+        random.shuffle(self.file_data)
+        batches = self.generate_batches(batch_size)
+        for number, batch in enumerate(batches):
+            generated_batch_name = f"{base_name}_{number}.{format_type}"
+            with open("batches/" + generated_batch_name, "w") as file:
+                if format_type == "json":
+                    json.dump(batch, file, indent=4)
+
 class TextDataset(Dataset):
     def __init__(self, path: str):
         super().__init__(path)
@@ -81,7 +100,7 @@ class TextDataset(Dataset):
         return frequency_dict
 
     def filter_short_data(self, column, min_length):
-        filtered_data = list(filter(lambda current_dict: len(current_dict[column]) >= min_length, self.file_data))
+        filtered_data = list(filter(lambda current_dict: len(current_dict[column].split()) >= min_length, self.file_data))
         self.file_data = filtered_data
 
     def censor_personal_data(self, column, personal_data_type):

@@ -33,6 +33,9 @@ class ScrubberApp(customtkinter.CTk):
         self.censor_options = customtkinter.CTkOptionMenu(self.sidebar, values=["email", "pl_phone", "pesel"])
         self.censor_options.grid(row=5, column=0, padx=10, pady=10)
 
+        self.filter_data_button = customtkinter.CTkButton(self.sidebar, text="Export Batches", font=("Arial", 20), command=self.handle_export_batches)
+        self.filter_data_button.grid(row=6, column=0, padx=10, pady=10)
+
         self.main_screen = customtkinter.CTkFrame(self)
         self.main_screen.grid(row=0, column=1, sticky="NSEW")
 
@@ -64,12 +67,20 @@ class ScrubberApp(customtkinter.CTk):
         try:
             if self.dataset is None:
                 raise NoDatasetException("No dataset loaded!")
-            chosen_min_length_box = customtkinter.CTkInputDialog(text="Choose the minimal length of a word to filter out", title="Choice")
+            chosen_min_length_box = customtkinter.CTkInputDialog(text="Choose the minimal number of words in a row", title="Choice")
             chosen_min_length = chosen_min_length_box.get_input()
             if chosen_min_length and chosen_min_length.isdigit() and int(chosen_min_length) > 0:
+                old_length = len(self.dataset.file_data)
                 self.dataset.filter_short_data("text", int(chosen_min_length)) #TODO KOLUMNA!!
+                new_length = len(self.dataset.file_data)
+                removed_count = old_length - new_length
                 self.contents.delete("0.0", "end")
-                self.contents.insert("end", f"\nLoaded {len(self.dataset.file_data)} lines!")
+                self.contents.insert("end", f"Data filtered!\n")
+                self.contents.insert("end", f"Removed {removed_count} short rows.\n")
+                self.contents.insert("end", f"Remaining rows: {new_length}\n\n")
+                self.contents.insert("end", "--- Preview of filtered data ---\n")
+                for row in self.dataset.file_data[:5]:
+                    self.contents.insert("end", f"{row}\n")
         except NoDatasetException as e:
             self.contents.delete("0.0", "end")
             self.contents.insert("end", e.error_text)
@@ -82,6 +93,21 @@ class ScrubberApp(customtkinter.CTk):
             self.dataset.censor_personal_data("text", chosen_censor) #TODO KOLUMNA!!
             self.contents.delete("0.0", "end")
             self.contents.insert("end", f"Censored {chosen_censor} in dataset!\n")
+        except NoDatasetException as e:
+            self.contents.delete("0.0", "end")
+            self.contents.insert("end", e.error_text)
+
+    def handle_export_batches(self):
+        try:
+            if self.dataset is None:
+                raise NoDatasetException("No dataset loaded!")
+            chosen_batches_box = customtkinter.CTkInputDialog(text="Choose the number of exported batches",title="Choice")
+            chosen_batches = chosen_batches_box.get_input()
+            if chosen_batches and chosen_batches.isdigit() and int(chosen_batches) > 0:
+                self.dataset.export_batches(int(chosen_batches))
+                self.contents.delete("0.0", "end")
+                self.contents.insert("end", f"Successfully exported {chosen_batches} batches!\n")
+
         except NoDatasetException as e:
             self.contents.delete("0.0", "end")
             self.contents.insert("end", e.error_text)
