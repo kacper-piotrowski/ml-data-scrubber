@@ -84,6 +84,18 @@ class ScrubberApp(customtkinter.CTk):
             plot.ylabel("Frequency")
             plot.xticks(rotation=45)
             plot.tight_layout()
+
+            def save_plot():
+                file_path = filedialog.asksaveasfilename(
+                    defaultextension=".png",
+                    filetypes=[("PNG files", "*.png"), ("JPEG files", "*.jpg")],
+                    title="Save chart as...",
+                )
+                if file_path:
+                    figure.savefig(file_path)
+            save_plot_button = customtkinter.CTkButton(plot_window, text="Save File", command=save_plot)
+            save_plot_button.pack(pady=10, side="bottom")
+
             canvas = FigureCanvasTkAgg(figure, master=plot_window)
             canvas.draw()
             canvas.get_tk_widget().pack(fill="both", expand=True)
