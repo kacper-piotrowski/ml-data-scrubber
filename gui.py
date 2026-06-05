@@ -74,6 +74,7 @@ class ScrubberApp(customtkinter.CTk):
                 self.dataset.load_data(has_header=csv_has_header)
             except Exception as e:
                 self.update_console(str(e), clear_before=True)
+                return
             columns = self.dataset.get_columns()
             if columns:
                 self.columns_available.configure(values=columns)
@@ -88,6 +89,7 @@ class ScrubberApp(customtkinter.CTk):
             if self.dataset is None:
                 raise NoDatasetException("No dataset loaded!")
             selected_column = self.columns_available.get()
+
             frequency_dict = self.dataset.get_word_frequencies(selected_column)
             top_10 = sorted(frequency_dict.items(), key=lambda x: x[1], reverse=True)[:10]
             words = [pair[0] for pair in top_10]
@@ -162,6 +164,8 @@ class ScrubberApp(customtkinter.CTk):
             self.update_console(f"Censored {chosen_censor} in dataset!\n", clear_before=True)
         except NoDatasetException as e:
             self.update_console(e.error_text, clear_before=True)
+        except ValueError as e:
+            self.update_console(str(e), clear_before=True)
 
     def handle_export_batches(self):
         try:

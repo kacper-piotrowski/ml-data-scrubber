@@ -39,8 +39,7 @@ class Dataset:
                             raise BadRowException(row, f"CSV row {row} has wrong number of columns")
                         data_dict = dict(zip(headers, split_line))
                         self.file_data.append(data_dict)
-                    except BadRowException as e:
-                        print(e.error_text)
+                    except BadRowException:
                         continue
         except FileNotFoundError:
             raise NoDatasetException(f"Can't find the file {self.file_path}!")
@@ -106,12 +105,12 @@ class TextDataset(Dataset):
         super().__init__(my_path)
 
     def get_unique_words(self, column):
-        return {word for current_dict in self.file_data for word in current_dict[column].split()}
+        return {word for current_dict in self.file_data for word in str(current_dict[column]).split()}
 
     def get_word_frequencies(self, column):
         frequency_dict = dict()
         for current_dict in self.file_data:
-            for word in current_dict[column].split():
+            for word in str(current_dict[column]).split():
                 if word not in frequency_dict:
                     frequency_dict[word] = 1
                 else:
@@ -130,8 +129,8 @@ class TextDataset(Dataset):
         }
         chosen_pattern = personal_data_patterns.get(personal_data_type)
         if not chosen_pattern:
-            print(f"Invalid personal data type: {personal_data_type}")
-            return
+            raise ValueError(f"Invalid personal data type: {personal_data_type}")
+        
         for current_dict in self.file_data:
             masked_dict = re.sub(chosen_pattern, "[PERSONAL]", current_dict[column])
             current_dict[column] = masked_dict
