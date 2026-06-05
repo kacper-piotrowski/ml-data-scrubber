@@ -5,7 +5,7 @@ import re
 from pathlib import Path
 from sys import path
 
-from utils import BadRowException, time_func, InvalidBatchNumberException
+from utils import BadRowException, time_func, InvalidBatchNumberException, NoDatasetException
 
 
 class Dataset:
@@ -16,16 +16,17 @@ class Dataset:
 
     def load_csv(self, has_header=False):
         try:
-            with open(self.file_path, "r") as file:
+            with open(self.file_path, "r", encoding="utf-8") as file:
                 lines = file.readlines()
+                delimiter = ';' if ';' in lines[0] else ','
                 if has_header:
-                    headers = lines[0].strip().split(',')
+                    headers = lines[0].strip().split(delimiter)
                 else:
-                    headers = ["col "+str(i) for i in range(len(lines[0].split(',')))]
+                    headers = ["col "+str(i) for i in range(len(lines[0].split(delimiter)))]
                 start_index = 1 if has_header else 0
                 for split_line in lines[start_index:]:
                     try:
-                        split_line = split_line.strip().split(",")
+                        split_line = split_line.strip().split(delimiter)
                         if len(split_line) != len(headers):
                             raise BadRowException(start_index, "CSV row has wrong number of columns")
                         data_dict = dict(zip(headers, split_line))
@@ -35,30 +36,33 @@ class Dataset:
                         print(e.error_text)
                         continue
         except FileNotFoundError:
-            print("File not found!")
+            raise NoDatasetException(f"Can't find the file {self.file_path}!")
+        except Exception as e:
+            raise NoDatasetException(f"Error loading CSV file: {str(e)}")
 
     def load_txt(self):
         header = "text"
         try:
-            with open(self.file_path, "r") as file:
+            with open(self.file_path, "r", encoding="utf-8") as file:
                 lines = file.readlines()
                 for line in lines:
-                    data_dict = {header: line.strip()}
-                    self.file_data.append(data_dict)
+                    if line.strip():
+                        data_dict = {header: line.strip()}
+                        self.file_data.append(data_dict)
         except FileNotFoundError:
-            print("File not found!")
+            raise NoDatasetException(f"Can't find the file {self.file_path}!")
 
     def load_json(self):
         try:
-            with open(self.file_path, "r") as file:
+            with open(self.file_path, "r", encoding="utf-8") as file:
                 self.file_data = json.load(file)
         except FileNotFoundError:
             print("File not found!")
 
     @time_func
-    def load_data(self):
+    def load_data(self, has_header=False):
         if self.file_path.endswith('.csv'):
-            self.load_csv()
+            self.load_csv(has_header=has_header)
         elif self.file_path.endswith('.txt'):
             self.load_txt()
         elif self.file_path.endswith('.json'):
@@ -81,7 +85,7 @@ class Dataset:
         batches = self.generate_batches(batch_size)
         for number, batch in enumerate(batches):
             generated_batch_name = f"{base_name}_{number}.{format_type}"
-            with open("batches/" + generated_batch_name, "w") as file:
+            with open("batches/" + generated_batch_name, "w", encoding="utf-8") as file:
                 if format_type == "json":
                     json.dump(batch, file, indent=4)
 
