@@ -3,7 +3,6 @@ import os
 import random
 import re
 from pathlib import Path
-from sys import path
 
 from utils import BadRowException, time_func, InvalidBatchNumberException, NoDatasetException
 
@@ -18,6 +17,8 @@ class Dataset:
         try:
             with open(self.file_path, "r", encoding="utf-8") as file:
                 lines = file.readlines()
+                if not lines:
+                    raise NoDatasetException(f"Empty file {self.file_path}!")
                 delimiter = ';' if ';' in lines[0] else ','
                 if has_header:
                     headers = lines[0].strip().split(delimiter)
@@ -78,7 +79,7 @@ class Dataset:
             raise InvalidBatchNumberException(f"Can't generate {batch_size} from {len(self.file_data)} rows of data!")
         os.makedirs("batches", exist_ok=True)
         base_name = "batches"
-        if path:
+        if self.file_path:
             base_name = Path(self.file_path).stem
         batch_size = max(1, batch_size)
         random.shuffle(self.file_data)

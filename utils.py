@@ -6,7 +6,7 @@ def time_func(func):
         start = time.time()
         result = func(*args, **kwargs)
         end = time.time()
-        with open("log_file.log", "a") as f:
+        with open("log_file.log", "a", encoding="utf-8") as f:
             f.write(f"{datetime.now()}: {func.__name__}: {end-start}\n")
         return result
     return wrapper
