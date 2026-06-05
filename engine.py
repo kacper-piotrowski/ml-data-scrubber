@@ -1,5 +1,4 @@
 import json
-import math
 import os
 import random
 import re
@@ -70,15 +69,14 @@ class Dataset:
             yield self.file_data[i:i + batch_size]
 
     @time_func
-    def export_batches(self, num_batches, format_type="json"):
-        if num_batches > len(self.file_data):
-            raise InvalidBatchNumberException(f"Can't generate {num_batches} from {len(self.file_data)} rows of data!")
+    def export_batches(self, batch_size, format_type="json"):
+        if batch_size > len(self.file_data):
+            raise InvalidBatchNumberException(f"Can't generate {batch_size} from {len(self.file_data)} rows of data!")
         os.makedirs("batches", exist_ok=True)
         base_name = "batches"
         if path:
             base_name = Path(self.file_path).stem
-        num_batches = max(1, num_batches)
-        batch_size = math.ceil(max(1, len(self.file_data) / num_batches))
+        batch_size = max(1, batch_size)
         random.shuffle(self.file_data)
         batches = self.generate_batches(batch_size)
         for number, batch in enumerate(batches):
