@@ -1,7 +1,7 @@
 import customtkinter
 from customtkinter import filedialog
 from engine import TextDataset
-from utils import NoDatasetException
+from utils import NoDatasetException, InvalidBatchNumberException
 
 
 class ScrubberApp(customtkinter.CTk):
@@ -29,9 +29,9 @@ class ScrubberApp(customtkinter.CTk):
         self.filter_data_button.grid(row=3, column=0, padx=10, pady=10)
 
         self.censor_data_button = customtkinter.CTkButton(self.sidebar, text="Censor Data", font=("Arial", 20), command=self.handle_censor_data)
-        self.censor_data_button.grid(row=4, column=0, padx=10, pady=10)
+        self.censor_data_button.grid(row=4, column=0, padx=10, pady=(10,0))
         self.censor_options = customtkinter.CTkOptionMenu(self.sidebar, values=["email", "pl_phone", "pesel"])
-        self.censor_options.grid(row=5, column=0, padx=10, pady=10)
+        self.censor_options.grid(row=5, column=0, padx=10, pady=(0,10))
 
         self.filter_data_button = customtkinter.CTkButton(self.sidebar, text="Export Batches", font=("Arial", 20), command=self.handle_export_batches)
         self.filter_data_button.grid(row=6, column=0, padx=10, pady=10)
@@ -57,7 +57,8 @@ class ScrubberApp(customtkinter.CTk):
             unique_words = self.dataset.get_unique_words("text") #TODO KOLUMNA!!
             self.contents.delete("0.0", "end")
             self.contents.insert("end", f"Unique words: {len(unique_words)}\n")
-            self.contents.insert("end", unique_words)
+            for word in unique_words:
+                self.contents.insert("end", f"{word}\n")
         except NoDatasetException as e:
             self.contents.delete("0.0", "end")
             self.contents.insert("end", e.error_text)
@@ -107,8 +108,10 @@ class ScrubberApp(customtkinter.CTk):
                 self.dataset.export_batches(int(chosen_batches))
                 self.contents.delete("0.0", "end")
                 self.contents.insert("end", f"Successfully exported {chosen_batches} batches!\n")
-
         except NoDatasetException as e:
+            self.contents.delete("0.0", "end")
+            self.contents.insert("end", e.error_text)
+        except InvalidBatchNumberException as e:
             self.contents.delete("0.0", "end")
             self.contents.insert("end", e.error_text)
 

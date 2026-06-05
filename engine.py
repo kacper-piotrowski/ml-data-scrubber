@@ -1,16 +1,17 @@
 import json
+import math
 import os
 import random
 import re
 from pathlib import Path
 from sys import path
 
-from utils import BadRowException, NoDatasetException
+from utils import BadRowException, time_func, InvalidBatchNumberException
 
 
 class Dataset:
-    def __init__(self, path):
-        self.file_path = path
+    def __init__(self, my_path):
+        self.file_path = my_path
         self.file_data = []
         self.filtered = False
 
@@ -55,6 +56,7 @@ class Dataset:
         except FileNotFoundError:
             print("File not found!")
 
+    @time_func
     def load_data(self):
         if self.file_path.endswith('.csv'):
             self.load_csv()
@@ -67,13 +69,16 @@ class Dataset:
         for i in range(0, len(self.file_data), batch_size):
             yield self.file_data[i:i + batch_size]
 
+    @time_func
     def export_batches(self, num_batches, format_type="json"):
+        if num_batches > len(self.file_data):
+            raise InvalidBatchNumberException(f"Can't generate {num_batches} from {len(self.file_data)} rows of data!")
         os.makedirs("batches", exist_ok=True)
         base_name = "batches"
         if path:
             base_name = Path(self.file_path).stem
         num_batches = max(1, num_batches)
-        batch_size = max(1, len(self.file_data) // num_batches)
+        batch_size = math.ceil(max(1, len(self.file_data) / num_batches))
         random.shuffle(self.file_data)
         batches = self.generate_batches(batch_size)
         for number, batch in enumerate(batches):
@@ -83,8 +88,8 @@ class Dataset:
                     json.dump(batch, file, indent=4)
 
 class TextDataset(Dataset):
-    def __init__(self, path: str):
-        super().__init__(path)
+    def __init__(self, my_path: str):
+        super().__init__(my_path)
 
     def get_unique_words(self, column):
         return {word for current_dict in self.file_data for word in current_dict[column].split()}
