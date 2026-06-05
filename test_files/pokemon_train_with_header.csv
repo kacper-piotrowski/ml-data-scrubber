@@ -1,0 +1,215 @@
+Ndex,Pokémon,Type,Type.1,Egg Group 2,Egg Group 1
+#0001,Bulbasaur,Grass,Poison,Grass,Monster
+#0003,Venusaur,Grass,Poison,Grass,Monster
+#0004,Charmander,Fire,Fire,Dragon,Monster
+#0005,Charmeleon,Fire,Fire,Dragon,Monster
+#0008,Wartortle,Water,Water,Water 1,Monster
+#0009,Blastoise,Water,Water,Water 1,Monster
+#0011,Metapod,Bug,Bug,—,Bug
+#0012,Butterfree,Bug,Flying,—,Bug
+#0013,Weedle,Bug,Poison,—,Bug
+#0014,Kakuna,Bug,Poison,—,Bug
+#0015,Beedrill,Bug,Poison,—,Bug
+#0016,Pidgey,Normal,Flying,—,Flying
+#0017,Pidgeotto,Normal,Flying,—,Flying
+#0018,Pidgeot,Normal,Flying,—,Flying
+#0019,Rattata,Normal,Normal,—,Field
+#0020,Raticate,Normal,Normal,—,Field
+#0021,Spearow,Normal,Flying,—,Flying
+#0022,Fearow,Normal,Flying,—,Flying
+#0023,Ekans,Poison,Poison,Dragon,Field
+#0024,Arbok,Poison,Poison,Dragon,Field
+#0025,Pikachu,Electric,Electric,Fairy,Field
+#0026,Raichu,Electric,Electric,Fairy,Field
+#0027,Sandshrew,Ground,Ground,—,Field
+#0028,Sandslash,Ground,Ground,—,Field
+#0029,Nidoran♀,Poison,Poison,Field,Monster
+#0032,Nidoran♂,Poison,Poison,Field,Monster
+#0034,Nidoking,Poison,Ground,Field,Monster
+#0035,Clefairy,Fairy,Fairy,—,Fairy
+#0036,Clefable,Fairy,Fairy,—,Fairy
+#0037,Vulpix,Fire,Fire,—,Field
+#0038,Ninetales,Fire,Fire,—,Field
+#0039,Jigglypuff,Normal,Fairy,—,Fairy
+#0040,Wigglytuff,Normal,Fairy,—,Fairy
+#0041,Zubat,Poison,Flying,—,Flying
+#0042,Golbat,Poison,Flying,—,Flying
+#0043,Oddish,Grass,Poison,—,Grass
+#0044,Gloom,Grass,Poison,—,Grass
+#0045,Vileplume,Grass,Poison,—,Grass
+#0046,Paras,Bug,Grass,Grass,Bug
+#0047,Parasect,Bug,Grass,Grass,Bug
+#0048,Venonat,Bug,Poison,—,Bug
+#0049,Venomoth,Bug,Poison,—,Bug
+#0050,Diglett,Ground,Ground,—,Field
+#0051,Dugtrio,Ground,Ground,—,Field
+#0052,Meowth,Normal,Normal,—,Field
+#0053,Persian,Normal,Normal,—,Field
+#0054,Psyduck,Water,Water,Field,Water 1
+#0055,Golduck,Water,Water,Field,Water 1
+#0056,Mankey,Fighting,Fighting,—,Field
+#0057,Primeape,Fighting,Fighting,—,Field
+#0058,Growlithe,Fire,Fire,—,Field
+#0059,Arcanine,Fire,Fire,—,Field
+#0060,Poliwag,Water,Water,—,Water 1
+#0061,Poliwhirl,Water,Water,—,Water 1
+#0062,Poliwrath,Water,Fighting,—,Water 1
+#0063,Abra,Psychic,Psychic,—,Human-Like
+#0064,Kadabra,Psychic,Psychic,—,Human-Like
+#0065,Alakazam,Psychic,Psychic,—,Human-Like
+#0066,Machop,Fighting,Fighting,—,Human-Like
+#0067,Machoke,Fighting,Fighting,—,Human-Like
+#0068,Machamp,Fighting,Fighting,—,Human-Like
+#0069,Bellsprout,Grass,Poison,—,Grass
+#0070,Weepinbell,Grass,Poison,—,Grass
+#0071,Victreebel,Grass,Poison,—,Grass
+#0072,Tentacool,Water,Poison,—,Water 3
+#0073,Tentacruel,Water,Poison,—,Water 3
+#0074,Geodude,Rock,Ground,—,Mineral
+#0075,Graveler,Rock,Ground,—,Mineral
+#0076,Golem,Rock,Ground,—,Mineral
+#0077,Ponyta,Fire,Fire,—,Field
+#0078,Rapidash,Fire,Fire,—,Field
+#0079,Slowpoke,Water,Psychic,Water 1,Monster
+#0080,Slowbro,Water,Psychic,Water 1,Monster
+#0081,Magnemite,Electric,Steel,—,Mineral
+#0082,Magneton,Electric,Steel,—,Mineral
+#0084,Doduo,Normal,Flying,—,Flying
+#0085,Dodrio,Normal,Flying,—,Flying
+#0086,Seel,Water,Water,Field,Water 1
+#0087,Dewgong,Water,Ice,Field,Water 1
+#0088,Grimer,Poison,Poison,—,Amorphous
+#0089,Muk,Poison,Poison,—,Amorphous
+#0090,Shellder,Water,Water,—,Water 3
+#0091,Cloyster,Water,Ice,—,Water 3
+#0092,Gastly,Ghost,Poison,—,Amorphous
+#0093,Haunter,Ghost,Poison,—,Amorphous
+#0094,Gengar,Ghost,Poison,—,Amorphous
+#0095,Onix,Rock,Ground,—,Mineral
+#0096,Drowzee,Psychic,Psychic,—,Human-Like
+#0097,Hypno,Psychic,Psychic,—,Human-Like
+#0098,Krabby,Water,Water,—,Water 3
+#0101,Electrode,Electric,Electric,—,Mineral
+#0102,Exeggcute,Grass,Psychic,—,Grass
+#0103,Exeggutor,Grass,Psychic,—,Grass
+#0104,Cubone,Ground,Ground,—,Monster
+#0105,Marowak,Ground,Ground,—,Monster
+#0106,Hitmonlee,Fighting,Fighting,—,Human-Like
+#0107,Hitmonchan,Fighting,Fighting,—,Human-Like
+#0108,Lickitung,Normal,Normal,—,Monster
+#0109,Koffing,Poison,Poison,—,Amorphous
+#0110,Weezing,Poison,Poison,—,Amorphous
+#0111,Rhyhorn,Ground,Rock,Field,Monster
+#0112,Rhydon,Ground,Rock,Field,Monster
+#0113,Chansey,Normal,Normal,—,Fairy
+#0114,Tangela,Grass,Grass,—,Grass
+#0115,Kangaskhan,Normal,Normal,—,Monster
+#0116,Horsea,Water,Water,Dragon,Water 1
+#0117,Seadra,Water,Water,Dragon,Water 1
+#0118,Goldeen,Water,Water,—,Water 2
+#0119,Seaking,Water,Water,—,Water 2
+#0120,Staryu,Water,Water,—,Water 3
+#0121,Starmie,Water,Psychic,—,Water 3
+#0122,Mr. Mime,Psychic,Fairy,—,Human-Like
+#0123,Scyther,Bug,Flying,—,Bug
+#0124,Jynx,Ice,Psychic,—,Human-Like
+#0125,Electabuzz,Electric,Electric,—,Human-Like
+#0126,Magmar,Fire,Fire,—,Human-Like
+#0127,Pinsir,Bug,Bug,—,Bug
+#0128,Tauros,Normal,Normal,—,Field
+#0129,Magikarp,Water,Water,Dragon,Water 2
+#0130,Gyarados,Water,Flying,Dragon,Water 2
+#0131,Lapras,Water,Ice,Water 1,Monster
+#0132,Ditto,Normal,Normal,—,Ditto
+#0133,Eevee,Normal,Normal,—,Field
+#0135,Jolteon,Electric,Electric,—,Field
+#0136,Flareon,Fire,Fire,—,Field
+#0137,Porygon,Normal,Normal,—,Mineral
+#0138,Omanyte,Rock,Water,Water 3,Water 1
+#0139,Omastar,Rock,Water,Water 3,Water 1
+#0140,Kabuto,Rock,Water,Water 3,Water 1
+#0141,Kabutops,Rock,Water,Water 3,Water 1
+#0142,Aerodactyl,Rock,Flying,—,Flying
+#0143,Snorlax,Normal,Normal,—,Monster
+#0147,Dratini,Dragon,Dragon,Dragon,Water 1
+#0149,Dragonite,Dragon,Flying,Dragon,Water 1
+#0152,Chikorita,Grass,Grass,Grass,Monster
+#0153,Bayleef,Grass,Grass,Grass,Monster
+#0154,Meganium,Grass,Grass,Grass,Monster
+#0155,Cyndaquil,Fire,Fire,—,Field
+#0159,Croconaw,Water,Water,Water 1,Monster
+#0160,Feraligatr,Water,Water,Water 1,Monster
+#0161,Sentret,Normal,Normal,—,Field
+#0162,Furret,Normal,Normal,—,Field
+#0163,Hoothoot,Normal,Flying,—,Flying
+#0164,Noctowl,Normal,Flying,—,Flying
+#0165,Ledyba,Bug,Flying,—,Bug
+#0166,Ledian,Bug,Flying,—,Bug
+#0167,Spinarak,Bug,Poison,—,Bug
+#0168,Ariados,Bug,Poison,—,Bug
+#0169,Crobat,Poison,Flying,—,Flying
+#0170,Chinchou,Water,Electric,—,Water 2
+#0171,Lanturn,Water,Electric,—,Water 2
+#0176,Togetic,Fairy,Flying,Fairy,Flying
+#0177,Natu,Psychic,Flying,—,Flying
+#0178,Xatu,Psychic,Flying,—,Flying
+#0179,Mareep,Electric,Electric,Field,Monster
+#0180,Flaaffy,Electric,Electric,Field,Monster
+#0181,Ampharos,Electric,Electric,Field,Monster
+#0182,Bellossom,Grass,Grass,—,Grass
+#0183,Marill,Water,Fairy,Fairy,Water 1
+#0184,Azumarill,Water,Fairy,Fairy,Water 1
+#0185,Sudowoodo,Rock,Rock,—,Mineral
+#0186,Politoed,Water,Water,—,Water 1
+#0187,Hoppip,Grass,Flying,Grass,Fairy
+#0188,Skiploom,Grass,Flying,Grass,Fairy
+#0189,Jumpluff,Grass,Flying,Grass,Fairy
+#0190,Aipom,Normal,Normal,—,Field
+#0191,Sunkern,Grass,Grass,—,Grass
+#0192,Sunflora,Grass,Grass,—,Grass
+#0193,Yanma,Bug,Flying,—,Bug
+#0194,Wooper,Water,Ground,Field,Water 1
+#0195,Quagsire,Water,Ground,Field,Water 1
+#0196,Espeon,Psychic,Psychic,—,Field
+#0197,Umbreon,Dark,Dark,—,Field
+#0198,Murkrow,Dark,Flying,—,Flying
+#0199,Slowking,Water,Psychic,Water 1,Monster
+#0202,Wobbuffet,Psychic,Psychic,—,Amorphous
+#0203,Girafarig,Normal,Psychic,—,Field
+#0204,Pineco,Bug,Bug,—,Bug
+#0205,Forretress,Bug,Steel,—,Bug
+#0206,Dunsparce,Normal,Normal,—,Field
+#0207,Gligar,Ground,Flying,—,Bug
+#0208,Steelix,Steel,Ground,—,Mineral
+#0209,Snubbull,Fairy,Fairy,Fairy,Field
+#0210,Granbull,Fairy,Fairy,Fairy,Field
+#0211,Qwilfish,Water,Poison,—,Water 2
+#0212,Scizor,Bug,Steel,—,Bug
+#0213,Shuckle,Bug,Rock,—,Bug
+#0214,Heracross,Bug,Fighting,—,Bug
+#0215,Sneasel,Dark,Ice,—,Field
+#0216,Teddiursa,Normal,Normal,—,Field
+#0217,Ursaring,Normal,Normal,—,Field
+#0218,Slugma,Fire,Fire,—,Amorphous
+#0219,Magcargo,Fire,Rock,—,Amorphous
+#0220,Swinub,Ice,Ground,—,Field
+#0221,Piloswine,Ice,Ground,—,Field
+#0222,Corsola,Water,Rock,Water 3,Water 1
+#0223,Remoraid,Water,Water,Water 2,Water 1
+#0224,Octillery,Water,Water,Water 2,Water 1
+#0225,Delibird,Ice,Flying,Field,Water 1
+#0226,Mantine,Water,Flying,—,Water 1
+#0227,Skarmory,Steel,Flying,—,Flying
+#0228,Houndour,Dark,Fire,—,Field
+#0229,Houndoom,Dark,Fire,—,Field
+#0230,Kingdra,Water,Dragon,Dragon,Water 1
+#0231,Phanpy,Ground,Ground,—,Field
+#0232,Donphan,Ground,Ground,—,Field
+#0233,Porygon2,Normal,Normal,—,Mineral
+#0234,Stantler,Normal,Normal,—,Field
+#0235,Smeargle,Normal,Normal,—,Field
+#0237,Hitmontop,Fighting,Fighting,—,Human-Like
+#0241,Miltank,Normal,Normal,—,Field
+#0242,Blissey,Normal,Normal,—,Fairy
+#0246,Larvitar,Rock,Ground,—,Monster
+#0247,Pupitar,Rock,Ground,—,Monster
