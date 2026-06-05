@@ -1,7 +1,9 @@
 import time
+import functools
 from datetime import datetime
 
 def time_func(func):
+    @functools.wraps(func)
     def wrapper(*args, **kwargs):
         start = time.time()
         result = func(*args, **kwargs)

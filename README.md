@@ -15,7 +15,7 @@ numerów telefonów, które maskują dane wrażliwe
 przy pomocy generatora
 
 ## Wykorzystane biblioteki:
-- Standardowe biblioteki Python: `json`, `csv`, `re`, `random`, `pathlib`, `time`
+- Standardowe biblioteki Python: `json`, `csv`, `re`, `random`, `pathlib`, `time`, `functools`
 - Biblioteki zewnętrzne:
 - - `customtkinter` - używana do stworzenia interfejsu graficznego
 - - `matplotlib` - używana do dynamicznego rysowania wykresów częstości słów

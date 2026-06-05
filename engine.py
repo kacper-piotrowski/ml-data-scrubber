@@ -3,7 +3,6 @@ import csv
 import os
 import random
 import re
-from hmac import new
 from pathlib import Path
 
 from utils import BadRowException, time_func, InvalidBatchNumberException, NoDatasetException
@@ -37,7 +36,7 @@ class Dataset:
                         if not split_line:
                             continue
                         if len(split_line) != len(headers):
-                            raise BadRowException(f"CSV row {row} has wrong number of columns")
+                            raise BadRowException(row, f"CSV row {row} has wrong number of columns")
                         data_dict = dict(zip(headers, split_line))
                         self.file_data.append(data_dict)
                     except BadRowException as e:
@@ -65,7 +64,7 @@ class Dataset:
             with open(self.file_path, "r", encoding="utf-8") as file:
                 self.file_data = json.load(file)
         except FileNotFoundError:
-            print("File not found!")
+            raise NoDatasetException(f"Can't find the file {self.file_path}!")
 
     @time_func
     def load_data(self, has_header=False):

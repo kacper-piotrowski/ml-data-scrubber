@@ -70,7 +70,10 @@ class ScrubberApp(customtkinter.CTk):
             self.update_console(chosen_file_path)
             self.dataset = TextDataset(chosen_file_path)
             csv_has_header = True if str(self.header_switch.get()) == "1" else False
-            self.dataset.load_data(has_header=csv_has_header)
+            try:
+                self.dataset.load_data(has_header=csv_has_header)
+            except Exception as e:
+                self.update_console(str(e), clear_before=True)
             columns = self.dataset.get_columns()
             if columns:
                 self.columns_available.configure(values=columns)
