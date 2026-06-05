@@ -1,7 +1,9 @@
 import json
+import csv
 import os
 import random
 import re
+from hmac import new
 from pathlib import Path
 
 from utils import BadRowException, time_func, InvalidBatchNumberException, NoDatasetException
@@ -16,23 +18,28 @@ class Dataset:
     def load_csv(self, has_header=False):
         try:
             with open(self.file_path, "r", encoding="utf-8") as file:
-                lines = file.readlines()
-                if not lines:
+                first_line = file.readlines()
+                if not first_line:
                     raise NoDatasetException(f"Empty file {self.file_path}!")
-                delimiter = ';' if ';' in lines[0] else ','
+                my_delimiter = ';' if ';' in first_line[0] else ','
+                file.seek(0)
+                reader = csv.reader(file, delimiter=my_delimiter)
                 if has_header:
-                    headers = lines[0].strip().split(delimiter)
+                    headers = next(reader)
                 else:
-                    headers = ["col "+str(i) for i in range(len(lines[0].split(delimiter)))]
+                    first_row = next(reader)
+                    headers = ["col " + str(i) for i in range(len(first_row))]
+                    file.seek(0)
+                    reader = csv.reader(file, delimiter=my_delimiter)
                 start_index = 1 if has_header else 0
-                for split_line in lines[start_index:]:
+                for row, split_line in enumerate(reader, start=start_index):
                     try:
-                        split_line = split_line.strip().split(delimiter)
+                        if not split_line:
+                            continue
                         if len(split_line) != len(headers):
-                            raise BadRowException(start_index, "CSV row has wrong number of columns")
+                            raise BadRowException(f"CSV row {row} has wrong number of columns")
                         data_dict = dict(zip(headers, split_line))
                         self.file_data.append(data_dict)
-                        start_index += 1
                     except BadRowException as e:
                         print(e.error_text)
                         continue
