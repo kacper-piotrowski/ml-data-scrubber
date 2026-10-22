@@ -1,43 +1,37 @@
 # ML-DataScrubber
-Projekt ma na celu umożliwić łatwe operacje na plikach
-wykorzystywanych później do uczenia modeli Machine Learning. Jest to aplikacja GUI
-która wspiera oczyszczanie, analizowanie i przygotowywanie danych w formatach
-CSV, TXT oraz JSON.
+The goal of this project is to enable easy operations on files later used for training Machine Learning models. It is a GUI application that supports cleaning, analyzing, and preparing data in CSV, TXT, and JSON formats.
 
-## Główne funkcjonalności:
-- Wczytywanie danych (obsługa CSV z nagłówkami lub bez)
-- Statystyki słów: Wypisanie liczby unikalnych wyrazów wraz z wypisaniem ich listy,
-oraz generowanie wykresu 10 najczęstszych słów
-- Filtrowanie danych: usuwanie zbyt krótkich wierszy danych z parametrem długości użytkownika
-- Cenzurowanie danych: predefiniowane regexy dla adresów e-mail, numerów pesel oraz polskich
-numerów telefonów, które maskują dane wrażliwe
-- Podział na pliki do treningu: losowe mieszanie danych i eksport batchy o podanej wielkości przez użytkownika
-przy pomocy generatora
+## Main Features:
+- **Data loading:** supports CSV files with or without headers
+- **Word statistics:** displays the total count and list of unique words, and generates a bar chart of the 10 most frequent words
+- **Data filtering:** removes rows shorter than a user-specified length threshold
+- **Data censoring (anonymization):** predefined regular expressions for email addresses, PESEL numbers, and Polish phone numbers that mask sensitive data
+- **Training file splitting:** randomly shuffles data and exports batches of a user-defined size using a generator
 
-## Wykorzystane biblioteki:
-- Standardowe biblioteki Python: `json`, `csv`, `re`, `random`, `pathlib`, `time`, `functools`
-- Biblioteki zewnętrzne:
-- - `customtkinter` - używana do stworzenia interfejsu graficznego
-- - `matplotlib` - używana do dynamicznego rysowania wykresów częstości słów
+## Libraries Used:
+- **Python Standard Library:** `json`, `csv`, `re`, `random`, `pathlib`, `time`, `functools`
+- **External Libraries:**
+  - `customtkinter` - used for building the graphical user interface
+  - `matplotlib` - used for dynamically plotting word frequency charts
 
-## Struktura projektu:
-- `main.py` - Uruchamia, pętlę GUI
-- `gui.py` - Definicja interfejsu użytkownika, oraz obsługa zdarzeń logicznych i interakcji
-- `engine.py` - Logika działania wszystkich funkcji programu oraz definicja klas Dataset i TextDataset
-- `utils.py` - Zawiera wszystkie customowe wyjątki, oraz dekorator do logowania czasu wykonania funkcji
+## Project Structure:
+- `main.py` - starts the main GUI loop
+- `gui.py` - user interface definition, logical event handling, and user interactions
+- `engine.py` - core logic for all program features and definitions of the `Dataset` and `TextDataset` classes
+- `utils.py` - contains all custom exceptions and a decorator for logging function execution time
 
-## Instrukcja uruchomienia:
-1. Wypakowanie projektu
-2. Instalacja bibliotek:
+## How to Run:
+1. Extract the project archive
+2. Install required libraries:
 ```bash
 pip install customtkinter matplotlib
  ```
-3. Uruchomienie aplikacji:
+3. Run the application:
 ```bash
 python main.py
 ```
 
-## Własne wyjątki:
-- BadRowException - rzucany, gdy w wiersz w pliku CSV ma niepoprawną liczbę kolumn
-- NoDatasetException - rzucany, kiedy brakuje nam danych do wykonania pewnej logiki
-- InvalidBatchNumberException - rzucany, gdy rozmiar batcha przekracza liczbę wszystkich wierszy
+## Custom Exceptions:
+- BadRowException - raised when a row in a CSV file has an invalid number of columns
+- NoDatasetException - raised when no data is loaded to perform a requested operation
+- InvalidBatchNumberException - raised when the specified batch size exceeds the total number of rows
